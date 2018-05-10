@@ -11,7 +11,31 @@ provider "aws" {
   region     = "${var.aws_region}"
 }
 
+data "aws_vpc" "selected" {
+  id = "${var.vpc_id}"
+}
+
 # Security Groups
+resource "aws_security_group" "allow-all-vpc" {
+  description = "All traffic in the VPC - Managed by Terraform"
+  name = "${var.cluster_name}-${var.owner}-allow-all-vpc-security-group"
+  vpc_id ="${var.vpc_id}"
+
+  ingress = {
+    protocol = "-1"
+    cidr_blocks =  ["${data.aws_vpc.selected.cidr_block}"]
+    from_port = 0
+    to_port = 0
+  }
+
+  egress = {
+    protocol = "-1"
+    cidr_blocks =  ["${data.aws_vpc.selected.cidr_block}"]
+    from_port = 0
+    to_port = 0
+  }
+}
+
 resource "aws_security_group" "ssh" {
   description = "SSH Security Group - Managed by Terraform"
   name = "${var.cluster_name}-${var.owner}-ssh-security-group"
@@ -131,7 +155,9 @@ resource "aws_instance" "broker" {
   security_groups = [
     "${aws_security_group.broker.id}",
     "${aws_security_group.ssh.id}",
-    "${aws_security_group.broker.id}"
+    "${aws_security_group.broker.id}",
+    "${aws_security_group.allow-all-vpc.id}",
+    "${var.broker_vpc_security_group_ids}"
   ]
   root_block_device {
     delete_on_termination = "${var.broker_delete_root_block_device_on_termination}"
@@ -157,7 +183,9 @@ resource "aws_instance" "worker" {
     "${aws_security_group.ssh.id}",
     "${aws_security_group.schema-registry.id}",
     "${aws_security_group.connect.id}",
-    "${aws_security_group.control-center.id}"
+    "${aws_security_group.control-center.id}",
+    "${aws_security_group.allow-all-vpc.id}",
+    "${var.worker_vpc_security_group_ids}"
   ]
 
   root_block_device {

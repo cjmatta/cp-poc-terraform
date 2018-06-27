@@ -1,13 +1,34 @@
-variable "aws_access_key" {}
-variable "aws_access_key_secret" {}
+variable "owner" {
+  default = "myowner"
+}
 
-variable "aws_region" {}
+variable "aws_access_key" {
+  default = "my_access_key"
+}
 
-variable "availability_zone" {}
+variable "aws_access_key_secret" {
+  default = "my_access_key_secret"
+}
 
-variable "subnet_id" {}
+variable "aws_region" {
+  default = "us-east-2"
+}
 
-variable "vpc_id" {}
+variable "availability_zone" {
+  default = "us-east-2b"
+}
+
+variable "subnet_id" {
+  default = "subnet-a71c12df"
+}
+
+variable "vpc_id" {
+  default = "vpc-0be80162"
+}
+
+variable "ec2_public_key_name" {
+  default = "my_public_key"
+}
 
 variable "aws_amis" {
   default = {
@@ -33,7 +54,14 @@ variable "cluster_name" {
   default = "Confluent-Platform-Cluster"
 }
 
-variable "owner" {}
+# Bastion variables
+variable "bastion_vpc_security_group_ids" {
+  default = []
+}
+
+variable "bastion_delete_root_block_device_on_termination" {
+  default = true
+} 
 
 # Broker variables
 variable "broker_count" {
@@ -73,30 +101,133 @@ variable "broker_kafka_data_dir" {
   default = "/var/lib/kafka"
 }
 
-# Worker variables
-variable "worker_count" {
-  default = "2"
+#Schema Registry variables
+variable "schema_registry_count" {
+  default = "1"
 }
 
-variable "worker_instance_type" {
+variable "schema_registry_instance_type" {
   default = "t2.xlarge"
 }
 
-variable "ec2_public_key_name" {}
-
-variable "worker_vpc_security_group_ids" {
+variable "schema_registry_vpc_security_group_ids" {
   default = []
 }
 
-variable "worker_tags" {
+variable "schema_registry_associate_public_ip_address" {
+  default = true
+}
+
+variable "schema_registry_delete_root_block_device_on_termination" {
+  default = true
+}
+
+variable "schema_registry_tags" {
   type = "map"
   default = {}
 }
 
-variable "worker_associate_public_ip_address" {
+#Control Center Variables
+variable "control_center_count" {
+  default = "1"
+}
+
+variable "control_center_instance_type" {
+  default = "t2.xlarge"
+}
+
+variable "control_center_vpc_security_group_ids" {
+  default = []
+}
+
+variable "control_center_associate_public_ip_address" {
   default = true
 }
 
-variable "worker_delete_root_block_device_on_termination" {
+variable "control_center_delete_root_block_device_on_termination" {
   default = true
 }
+
+variable "control_center_tags" {
+  type = "map"
+  default = {}
+}
+
+#Connect Distributed Variables
+variable "connect_distributed_count" {
+  default = "0"
+}
+
+variable "connect_distributed_instance_type" {
+  default = "t2.xlarge"
+}
+
+variable "connect_distributed_vpc_security_group_ids" {
+  default = []
+}
+
+variable "connect_distributed_associate_public_ip_address" {
+  default = true
+}
+
+variable "connect_distributed_delete_root_block_device_on_termination" {
+  default = true
+}
+
+variable "connect_distributed_tags" {
+  type = "map"
+  default = {}
+}
+
+#Kafka REST Variables
+variable "kafka_rest_count" {
+  default = "0"
+}
+
+variable "kafka_rest_instance_type" {
+  default = "t2.xlarge"
+}
+
+variable "kafka_rest_vpc_security_group_ids" {
+  default = []
+}
+
+variable "kafka_rest_associate_public_ip_address" {
+  default = true
+}
+
+variable "kafka_rest_delete_root_block_device_on_termination" {
+  default = true
+}
+
+variable "kafka_rest_tags" {
+  type = "map"
+  default = {}
+}
+
+#KSQL Server Variables
+variable "ksql_count" {
+  default = "0"
+}
+
+variable "ksql_instance_type" {
+  default = "t2.xlarge"
+}
+
+variable "ksql_vpc_security_group_ids" {
+  default = []
+}
+
+variable "ksql_associate_public_ip_address" {
+  default = true
+}
+
+variable "ksql_delete_root_block_device_on_termination" {
+  default = true
+}
+
+variable "ksql_tags" {
+  type = "map"
+  default = {}
+}
+

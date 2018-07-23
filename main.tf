@@ -62,7 +62,6 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 8083
       to_port = 8083
       protocol = "TCP"
-      self = true
       cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -72,7 +71,6 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 8081
       to_port = 8081
       protocol = "TCP"
-      self = true
       cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -82,7 +80,14 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 9021
       to_port = 9021
       protocol = "TCP"
-      self = true
+      cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # KSQL access
+  ingress {
+      from_port = 8088
+      to_port = 8088
+      protocol = "TCP"
       cidr_blocks = ["0.0.0.0/0"]
   }
 

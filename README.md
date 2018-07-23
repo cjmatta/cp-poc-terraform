@@ -35,6 +35,8 @@ Can be used with Confluent's Ansible: http://github.com/confluentinc/cp-ansible
 ## Running
 Clone this repository, and create a `terraform.tfvars` file containing the above required keys/values
 
+Run `terraform init` after cloning.
+
 To preview your environment:
 ```
 $ terraform plan

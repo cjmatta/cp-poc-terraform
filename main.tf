@@ -16,7 +16,7 @@ data "aws_vpc" "selected" {
 }
 
 # Security Groups
-resource "aws_security_group" "allow-all-vpc" {
+resource "aws_security_group" "allow_all_vpc" {
   description = "All traffic in the VPC - Managed by Terraform"
   name = "${var.cluster_name}-${var.owner}-allow-all-vpc-security-group"
   vpc_id ="${var.vpc_id}"
@@ -36,9 +36,9 @@ resource "aws_security_group" "allow-all-vpc" {
   }
 }
 
-resource "aws_security_group" "ssh" {
-  description = "SSH Security Group - Managed by Terraform"
-  name = "${var.cluster_name}-${var.owner}-ssh-security-group"
+resource "aws_security_group" "external_connectivity" {
+  description = "External Connectivity Security Group - Managed by Terraform"
+  name = "${var.cluster_name}-${var.owner}-external-connectivity-security-group"
   vpc_id = "${var.vpc_id}"
   # ssh from anywhere
   ingress {
@@ -48,18 +48,6 @@ resource "aws_security_group" "ssh" {
       cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "broker" {
-  description = "Broker Security Group - Managed by Terraform"
-  name = "${var.cluster_name}-${var.owner}-broker-security-group"
-  vpc_id = "${var.vpc_id}"
   # broker from anywhere
   ingress {
       from_port = 9092
@@ -68,18 +56,6 @@ resource "aws_security_group" "broker" {
       cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "connect" {
-  description = "Connect security group - Managed by Terraform"
-  name = "${var.cluster_name}-${var.owner}-connect-security-group"
-  vpc_id = "${var.vpc_id}"
   # connect http interface - only accessable on host, without this
   # c3 needs access
   ingress {
@@ -90,18 +66,6 @@ resource "aws_security_group" "connect" {
       cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "schema-registry" {
-  description = "Schema Registry security group - Managed by Terraform"
-  name = "${var.cluster_name}-${var.owner}-schema-registry-security-group"
-  vpc_id = "${var.vpc_id}"
   # schema-registry http interface - only accessable on host, without this
   # c3 needs access
   ingress {
@@ -112,18 +76,6 @@ resource "aws_security_group" "schema-registry" {
       cidr_blocks = ["0.0.0.0/0"]
   }
 
-  egress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_security_group" "control-center" {
-  description = "Control Center security group - Managed by Terraform"
-  name = "${var.cluster_name}-${var.owner}-control-center"
-  vpc_id = "${var.vpc_id}"
   # control-center http interface - only accessable on host, without this
   # c3 needs access
   ingress {
@@ -153,11 +105,8 @@ resource "aws_instance" "broker" {
   availability_zone = "${var.availability_zone}"
   vpc_security_group_ids = "${var.broker_vpc_security_group_ids}"
   security_groups = [
-    "${aws_security_group.broker.id}",
-    "${aws_security_group.ssh.id}",
-    "${aws_security_group.broker.id}",
-    "${aws_security_group.allow-all-vpc.id}",
-    "${var.broker_vpc_security_group_ids}"
+    "${aws_security_group.external_connectivity.id}",
+    "${aws_security_group.allow_all_vpc.id}"
   ]
   root_block_device {
     delete_on_termination = "${var.broker_delete_root_block_device_on_termination}"
@@ -180,12 +129,8 @@ resource "aws_instance" "worker" {
   availability_zone = "${var.availability_zone}"
   vpc_security_group_ids = "${var.worker_vpc_security_group_ids}"
   security_groups = [
-    "${aws_security_group.ssh.id}",
-    "${aws_security_group.schema-registry.id}",
-    "${aws_security_group.connect.id}",
-    "${aws_security_group.control-center.id}",
-    "${aws_security_group.allow-all-vpc.id}",
-    "${var.worker_vpc_security_group_ids}"
+    "${aws_security_group.external_connectivity.id}",
+    "${aws_security_group.allow_all_vpc.id}"
   ]
 
   root_block_device {

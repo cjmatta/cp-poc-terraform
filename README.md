@@ -66,3 +66,32 @@ Currently supporting CentOS 7 AMIs in the following regions (AMI IDs taken from 
 * us-east-2
 * us-west-1
 * us-west-2
+
+## Provisioning
+Once you have your AWS instances created the next step is to provision the Confluent Platform inside them.
+
+The ```create_ansible_inventory.py``` script is provided to read the terraform state in JSON and convert it to YAML for use by cp-ansible. 
+
+By default we use the private DNS names for the AWS instances which means that you need to run ansible from one of the machines in AWS. 
+```
+$ terraform output -json | ./create_ansible_inventory.py > hosts.yml
+```
+sftp hosts.yml to one of the newly created machines, then ssh into that machine and use http://github.com/confluentinc/cp-ansible from there.
+
+### Running ansible from same place as terraform
+NB! if you use the public DNS names the Kafka brokers will be accessible from the internet.
+
+Passing the ```-p``` or ```--public``` flags to ```create_ansible_inventory.py``` causes it to use the public DNS names instead.
+```
+$ terraform output -json | ./create_ansible_inventory.py -p > hosts.yml
+```
+When running ansible locally you need to add the public keys of the machines to the ssh known_hosts file
+```
+$ terraform output -json | ./register_host_keys.py
+```
+And then in order to actually have ansible use your AWS private key to access the machines remotely use ```ssh-agent```
+```
+$ ssh-agent bash
+bash-3.2$  ssh-add /path/to/your.pem
+bash-3.2$ ansible-playbook -i hosts.yml all.yml
+```

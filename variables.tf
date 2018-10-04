@@ -35,6 +35,10 @@ variable "cluster_name" {
 
 variable "owner" {}
 
+variable "prefix" {
+	default = "confluent-platform"
+}
+
 # Broker variables
 variable "broker_count" {
   default = "3"

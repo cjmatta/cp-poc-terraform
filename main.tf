@@ -118,7 +118,7 @@ resource "aws_instance" "broker" {
   }
 
   tags ="${merge(
-    map("Name", "confluent-platform-kafka-broker"),
+    map("Name", "${var.prefix}-kafka-broker"),
     local.common_tags,
     var.broker_tags
     )}"
@@ -143,7 +143,7 @@ resource "aws_instance" "worker" {
   }
 
   tags ="${merge(
-    map("Name", "confluent-platform-worker-node"),
+    map("Name", "${var.prefix}-worker-node"),
     local.common_tags,
     var.worker_tags
     )}"

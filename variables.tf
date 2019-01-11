@@ -57,6 +57,10 @@ variable "broker_volume_size" {
   default = "16"
 }
 
+variable "broker_root_volume_size" {
+  default = "16"
+}
+
 variable "broker_volume_device_name" {
   default = "/dev/xvdf"
 }

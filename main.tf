@@ -114,6 +114,7 @@ resource "aws_instance" "broker" {
     "${aws_security_group.allow_all_vpc.id}"
   ]
   root_block_device {
+    volume_size = "${var.broker_root_volume_size}"
     delete_on_termination = "${var.broker_delete_root_block_device_on_termination}"
   }
 

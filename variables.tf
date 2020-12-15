@@ -45,7 +45,7 @@ variable "broker_count" {
 }
 
 variable "broker_instance_type" {
-  default = "t2.xlarge"
+  default = "t2.large"
 }
 
 variable "broker_tags" {
@@ -87,7 +87,7 @@ variable "worker_count" {
 }
 
 variable "worker_instance_type" {
-  default = "t2.xlarge"
+  default = "t2.large"
 }
 
 variable "ec2_public_key_name" {}

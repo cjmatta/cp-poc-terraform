@@ -8,6 +8,7 @@ Can be used with Confluent's Ansible: http://github.com/confluentinc/cp-ansible
 |Property | Documentation| Default | Required? |
 | ------- | ------------ | ------- | --------- |
 | owner   | tag describing the owner, will be used in cluster name | | yes |
+| security_group_cidr | CIDR to use for external connectivity SG. Specify your own IP for testing. eg. `["12.345.678.90/32"]` | `["0.0.0.0/0"]` | no |
 | prefix   | prefix used in naming instances | confluent-platform | no |
 | aws_access_key | the access key for your AWS account | | yes |
 | aws_access_key_secret | the access key secret for your AWS account | | yes |

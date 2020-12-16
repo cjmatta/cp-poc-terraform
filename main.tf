@@ -45,7 +45,7 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 22
       to_port = 22
       protocol = "TCP"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "${var.security_group_cidr}"
   }
 
   # broker from anywhere
@@ -53,7 +53,15 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 9092
       to_port = 9092
       protocol = "TCP"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "${var.security_group_cidr}"
+  }
+
+  # joloklia from anywhere
+  ingress {
+      from_port = 7771
+      to_port = 7771
+      protocol = "TCP"
+      cidr_blocks = "${var.security_group_cidr}"
   }
 
   # connect http interface - only accessable on host, without this
@@ -62,7 +70,7 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 8083
       to_port = 8083
       protocol = "TCP"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "${var.security_group_cidr}"
   }
 
   # schema-registry http interface - only accessable on host, without this
@@ -71,7 +79,7 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 8081
       to_port = 8081
       protocol = "TCP"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "${var.security_group_cidr}"
   }
 
   # control-center http interface - only accessable on host, without this
@@ -80,7 +88,7 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 9021
       to_port = 9021
       protocol = "TCP"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "${var.security_group_cidr}"
   }
 
   # KSQL access
@@ -88,7 +96,7 @@ resource "aws_security_group" "external_connectivity" {
       from_port = 8088
       to_port = 8088
       protocol = "TCP"
-      cidr_blocks = ["0.0.0.0/0"]
+      cidr_blocks = "${var.security_group_cidr}"
   }
 
   egress {

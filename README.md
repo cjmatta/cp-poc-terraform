@@ -34,6 +34,13 @@ Can be used with Confluent's Ansible: http://github.com/confluentinc/cp-ansible
 |worker_associate_public_ip_address   | boolean weather to associate public IP  | true  | no  |
 |worker_delete_root_block_device_on_termination   | boolean weather to delete the root block device on termination  | true | no  |
 
+## Prerequisites
+* Python 2
+	* jinja2
+* terraform
+* ansible
+
+
 ## Running
 Clone this repository, and create a `terraform.tfvars` file containing the above required keys/values
 

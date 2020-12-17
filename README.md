@@ -35,7 +35,7 @@ Can be used with Confluent's Ansible: http://github.com/confluentinc/cp-ansible
 |worker_delete_root_block_device_on_termination   | boolean weather to delete the root block device on termination  | true | no  |
 
 ## Prerequisites
-* Python 2
+* Python 3
 	* jinja2
 * terraform
 * ansible

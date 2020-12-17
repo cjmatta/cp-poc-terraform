@@ -56,6 +56,14 @@ resource "aws_security_group" "external_connectivity" {
       cidr_blocks = "${var.security_group_cidr}"
   }
 
+  # MDS from anywhere
+  ingress {
+      from_port = 8090
+      to_port = 8090
+      protocol = "TCP"
+      cidr_blocks = "${var.security_group_cidr}"
+  }
+
   # joloklia from anywhere
   ingress {
       from_port = 7771

@@ -21,19 +21,29 @@ resource "aws_security_group" "allow_all_vpc" {
   name = "${var.cluster_name}-${var.owner}-allow-all-vpc-security-group"
   vpc_id ="${var.vpc_id}"
 
-  ingress = {
-    protocol = "-1"
-    cidr_blocks =  ["${data.aws_vpc.selected.cidr_block}"]
-    from_port = 0
-    to_port = 0
-  }
+  ingress = [{
+      description = null,
+      protocol = "-1",
+      cidr_blocks =  ["${data.aws_vpc.selected.cidr_block}"],
+      from_port = 0,
+      to_port = 0,
+      ipv6_cidr_blocks = null,
+      prefix_list_ids = null,
+      security_groups = null,
+      self = null
+    }]
 
-  egress = {
-    protocol = "-1"
-    cidr_blocks =  ["${data.aws_vpc.selected.cidr_block}"]
-    from_port = 0
-    to_port = 0
-  }
+  egress = [{
+      description = null,
+      protocol = "-1",
+      cidr_blocks =  ["${data.aws_vpc.selected.cidr_block}"],
+      from_port = 0,
+      to_port = 0,
+      ipv6_cidr_blocks = null,
+      prefix_list_ids = null,
+      security_groups = null,
+      self = null
+    }]
 }
 
 resource "aws_security_group" "external_connectivity" {

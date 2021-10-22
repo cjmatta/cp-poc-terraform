@@ -8,6 +8,7 @@ Can be used with Confluent's Ansible: http://github.com/confluentinc/cp-ansible
 |Property | Documentation| Default | Required? |
 | ------- | ------------ | ------- | --------- |
 | owner   | tag describing the owner, will be used in cluster name | | yes |
+| security_group_cidr | CIDR to use for external connectivity SG. Specify your own IP for testing. eg. `["12.345.678.90/32"]` | `["0.0.0.0/0"]` | no |
 | prefix   | prefix used in naming instances | confluent-platform | no |
 | aws_access_key | the access key for your AWS account | | yes |
 | aws_access_key_secret | the access key secret for your AWS account | | yes |
@@ -32,6 +33,13 @@ Can be used with Confluent's Ansible: http://github.com/confluentinc/cp-ansible
 |worker_tags   | map of tags for worker instances  |   | no  |
 |worker_associate_public_ip_address   | boolean weather to associate public IP  | true  | no  |
 |worker_delete_root_block_device_on_termination   | boolean weather to delete the root block device on termination  | true | no  |
+
+## Prerequisites
+* Python 3
+	* jinja2
+* terraform
+* ansible
+
 
 ## Running
 Clone this repository, and create a `terraform.tfvars` file containing the above required keys/values

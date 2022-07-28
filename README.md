@@ -57,23 +57,17 @@ $ terraform apply
 ```
 
 ## AWS AMIs
-Currently supporting CentOS 7 AMIs in the following regions (AMI IDs taken from [here](https://wiki.centos.org/Cloud/AWS#head-78d1e3a4e6ba5c5a3847750d88266916ffe69648)):
+Currently supporting CentOS 7, 8, 9 and Ubuntu 16.02, 18.04, 20.04 and 22.04 AMIs in the all regions (AMI IDs pulled using the [aws_ami data source](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) in Terraform)
 
-* ap-northeast-1
-* ap-northeast-2
-* ap-south-1
-* ap-southeast-1
-* ap-southeast-2
-* ca-central-1
-* eu-central-1
-* eu-west-1
-* eu-west-2
-* eu-west-3
-* sa-east-1
-* us-east-1
-* us-east-2
-* us-west-1
-* us-west-2
+The OS can be specified through the `os` variable. It defaults to `Ubuntu 20`. The following values are accepted:
+
+* centos_7
+* centos_8
+* centos_9
+* ubuntu_16
+* ubuntu_18
+* ubuntu_20
+* ubuntu_22
 
 ## Provisioning
 Once you have your AWS instances created the next step is to provision the Confluent Platform inside them.

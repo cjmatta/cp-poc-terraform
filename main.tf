@@ -4,6 +4,12 @@ locals {
     "Owner" = "${var.owner}"
 }
   )
+
+  amis  = tomap({
+    centos_7 = data.aws_ami.centos_7.id,
+    ubuntu_18 = data.aws_ami.ubuntu_18.id,
+    ubuntu_20 = data.aws_ami.ubuntu_20.id
+  })
 }
 
 
@@ -131,7 +137,7 @@ resource "aws_security_group" "external_connectivity" {
 # instances
 resource "aws_instance" "broker" {
   count                       = var.broker_count
-  ami                         = lookup(var.aws_amis, var.aws_region)
+  ami                         = local.amis[var.os]
   instance_type               = var.broker_instance_type
   associate_public_ip_address = var.broker_associate_public_ip_address
   subnet_id                   = var.subnet_id
@@ -156,7 +162,7 @@ resource "aws_instance" "broker" {
 
 resource "aws_instance" "worker" {
   count                       = var.worker_count
-  ami                         = lookup(var.aws_amis, var.aws_region)
+  ami                         = local.amis[var.os]
   instance_type               = var.worker_instance_type
   associate_public_ip_address = var.worker_associate_public_ip_address
   subnet_id                   = var.subnet_id

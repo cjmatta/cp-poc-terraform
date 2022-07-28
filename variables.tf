@@ -14,7 +14,7 @@ variable "os" {
   default = "ubuntu_20"
   validation {
     condition     = contains(["centos_7", "centos_8", "centos_9", "ubuntu_16", "ubuntu_18", "ubuntu_20", "ubuntu_22"], var.os)
-    error_message = "OS value should be either of the following: centos_7, centos_8, centos_9, ubuntu_16, ubuntu_18, ubuntu_20, ubuntu_22"
+    error_message = "OS value should be either of the following: centos_7, centos_8, centos_9, ubuntu_16, ubuntu_18, ubuntu_20, ubuntu_22."
   }
 }
 

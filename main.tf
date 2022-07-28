@@ -1,9 +1,12 @@
 locals {
-  common_tags = map(
-    "Cluster", "${var.cluster_name}",
-    "Owner", "${var.owner}"
+  common_tags = tomap(
+    {"Cluster" = "${var.cluster_name}",
+    "Owner" = "${var.owner}"
+}
   )
 }
+
+
 
 provider "aws" {
   access_key = var.aws_access_key
@@ -145,7 +148,7 @@ resource "aws_instance" "broker" {
   }
 
   tags = merge(
-    map("Name", "${var.prefix}-kafka-broker"),
+    tomap({"Name" = "${var.prefix}-kafka-broker"}),
     local.common_tags,
     var.broker_tags
   )
@@ -170,7 +173,7 @@ resource "aws_instance" "worker" {
   }
 
   tags = merge(
-    map("Name", "${var.prefix}-worker-node"),
+    tomap({"Name" = "${var.prefix}-worker-node"}),
     local.common_tags,
     var.worker_tags
   )
